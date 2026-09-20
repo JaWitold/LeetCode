@@ -35,4 +35,5 @@ suite picks it up with no new test code.
 | # | Problem | Difficulty | Topics | Approaches | Notes |
 |---|---------|------------|--------|------------|-------|
 | 1 | [Two Sum](problems/0001-two-sum/README.md) | easy | junior, array, hash-table | NestedLoops, NestedLoopsSkipRepeats, ComplementScan, ComplementHashMap | notebook |
+| 167 | [Two Sum II - Input Array Is Sorted](problems/0167-two-sum-ii-input-array-is-sorted/README.md) | medium | array, two-pointers, binary-search | HashMap, TwoPointers, TwoPointersSkipImpossible, TwoPointersSkipDuplicates, BisectJump, MidpointProbe, BisectRunEnd, InlineBisectJump | notebook |
 <!-- lc:index:end -->
