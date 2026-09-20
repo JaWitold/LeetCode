@@ -1,0 +1,39 @@
+[project]
+name = "leetcode"
+version = "0.1.0"
+description = "LeetCode solutions, notes, tests and notebooks"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+lc = "lc.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+    "jupyter>=1.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["lc"]
+
+[tool.pytest.ini_options]
+testpaths = ["problems"]
+python_files = ["test_*.py"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+# markdown holds illustrative snippets, not code to format
+extend-exclude = ["templates", "**/*.md", "problems/**/*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"problems/**/solutions.py" = ["N802", "N803", "N806"]
