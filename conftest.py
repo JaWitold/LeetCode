@@ -14,7 +14,7 @@ import pytest
 # harness.check does the asserting, so it needs rewriting to show expected/actual
 pytest.register_assert_rewrite("lc.harness")
 
-from lc.harness import as_cases, default_equal  # noqa: E402
+from lc.harness import Comparison, as_cases, default_equal  # noqa: E402
 
 
 def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
@@ -35,6 +35,14 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
 
 
 @pytest.fixture
-def equal(request: pytest.FixtureRequest):
-    """Comparison used by ``lc.harness.check``; per-module ``EQUAL`` wins."""
-    return getattr(request.module, "EQUAL", default_equal)
+def equal(request: pytest.FixtureRequest) -> Comparison:
+    """How this module compares results.
+
+    ``NORMALIZE`` is preferred: both sides go through it and are compared with
+    ``==``, so a failure shows pytest's own diff. ``EQUAL`` is the escape hatch
+    for answers with no canonical form.
+    """
+    return Comparison(
+        equal=getattr(request.module, "EQUAL", default_equal),
+        normalize=getattr(request.module, "NORMALIZE", None),
+    )

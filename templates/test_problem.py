@@ -12,6 +12,9 @@ SOLUTIONS = load_solutions(__file__)
 #   expected = after(nums=[...])       -> compared against an argument mutated in place,
 #                                         optionally with returns=<value>
 #   expected = lambda actual, *args    -> free-form check, for several valid answers
+#
+# Answer order not fixed? define NORMALIZE(value) here and both sides are put
+# into canonical form before comparing, keeping pytest's diff on failure.
 CASES = [
 ]
 

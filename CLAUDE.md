@@ -42,7 +42,10 @@ The piece worth understanding is how those three files connect:
   what lets `after(...)` assert on arguments an in-place solution mutated.
   `check` keeps its comparison a plain `assert a == b` and `conftest.py` calls
   `pytest.register_assert_rewrite("lc.harness")`, so a failure shows the real
-  expected/actual diff instead of an opaque helper call.
+  expected/actual diff instead of an opaque helper call. A module defining
+  `NORMALIZE` keeps that diff for order-free answers, since both sides are
+  canonicalized and still compared with `==`; `EQUAL` is the fallback that
+  loses it.
 - Root `conftest.py` is the crossing point: `pytest_generate_tests` parametrizes
   any test taking `solution` and `case` over the module's `SOLUTIONS` and
   `CASES`. **Consequence: adding an approach to `solutions.py` adds test

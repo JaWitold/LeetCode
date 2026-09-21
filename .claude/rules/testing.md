@@ -15,13 +15,18 @@
     callable `(actual) -> bool`;
   - a callable `(actual, *args) -> bool` for problems with several valid
     answers, where `args` are the arguments *as the solution left them*.
-  For a loose comparison across every case in a module, define
-  `EQUAL(expected, actual)` there instead.
+  When the answer has no single right form — a set of triplets, a list whose
+  order is free — define `NORMALIZE(value)` in the module. Both sides go
+  through it and are then compared with `==`, so a failure still shows pytest's
+  diff of the canonical forms. `EQUAL(expected, actual)` remains for the rare
+  comparison that cannot be expressed as a normalization; it is a call, so
+  pytest cannot rewrite it and the failure carries only the message.
 - Arguments are deep-copied per run, so solutions may mutate freely and cases
   are never shared between approaches.
 - Failures print `Solution.method(args)` followed by pytest's own
   expected/actual diff; `lc.harness` is assertion-rewritten in `conftest.py` to
-  make that work, so keep the asserts in `check` as plain comparisons.
+  make that work, so keep the asserts in `check` as plain comparisons — which
+  is also why `NORMALIZE` is preferred over `EQUAL`.
 - Cases are written before the solution and must include the problem's own
   examples, the boundaries the constraints permit (empty, single, all-equal,
   extremes of sign and value), and at least one input big enough to make the

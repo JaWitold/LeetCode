@@ -80,6 +80,37 @@ def default_equal(expected: Any, actual: Any) -> bool:
     return expected == actual
 
 
+class Comparison:
+    """How a module wants its results compared.
+
+    ``normalize`` is the useful half: when a module defines ``NORMALIZE``, both
+    sides are put through it and compared with a plain ``==``, so pytest's
+    assertion rewriting produces a real diff of the normalized values. A module
+    that defines ``EQUAL`` instead gets its predicate called, which no longer
+    yields a diff — prefer ``NORMALIZE`` where the answer has a canonical form.
+    """
+
+    def __init__(
+        self,
+        equal: Callable[[Any, Any], bool] = default_equal,
+        normalize: Callable[[Any], Any] | None = None,
+    ) -> None:
+        self.equal = equal
+        self.normalize = normalize
+
+    def __repr__(self) -> str:
+        if self.normalize is not None:
+            return f"Comparison(normalize={self.normalize.__name__})"
+        if self.equal is not default_equal:
+            return f"Comparison(equal={self.equal.__name__})"
+        return "Comparison(==)"
+
+    def __call__(self, expected: Any, actual: Any) -> bool:
+        if self.normalize is not None:
+            return self.normalize(expected) == self.normalize(actual)
+        return self.equal(expected, actual)
+
+
 @dataclass(frozen=True)
 class Case:
     args: tuple[Any, ...]
@@ -189,14 +220,44 @@ def check(solution: type, case: Case, equal: Callable[[Any, Any], bool] = defaul
     expected = case.expected
     call = call_repr(solution, case)
 
+    normalize = getattr(equal, "normalize", None)
+
     if isinstance(expected, After):
         expected.verify(solution, case, result, args)
     elif callable(expected) and not isinstance(expected, type):
-        assert expected(result, *args), f"{call} -> {result!r}, rejected by validator"
-    elif equal is default_equal:
-        # plain comparison so pytest rewrites it into a real expected/actual diff
-        assert result == expected, f"{call} returned"
-    else:
-        assert equal(expected, result), (
-            f"{call} -> {result!r}, expected {expected!r} (module EQUAL)"
+        assert expected(result, *args), (
+            f"{call}\n  returned: {result!r}\n  rejected by the case's validator"
         )
+    elif normalize is not None:
+        # normalize both sides, then compare plainly so pytest can diff them
+        assert _normalized(normalize, result, call) == normalize(expected), (
+            f"{call} returned, normalized:"
+        )
+    elif equal is default_equal or getattr(equal, "equal", None) is default_equal:
+        # plain comparison so pytest rewrites it into a real expected/actual diff
+        assert result == expected, f"{call} returned:"
+    else:
+        try:
+            verdict = equal(expected, result)
+        except Exception as exc:
+            raise AssertionError(
+                f"{call}\n  returned: {result!r}"
+                f"\n  which the module's EQUAL could not handle: {type(exc).__name__}: {exc}"
+            ) from None
+        assert verdict, (
+            f"{call}\n  returned: {result!r}\n  expected: {expected!r}"
+            f"\n  compared with the module's EQUAL"
+        )
+
+
+def _normalized(normalize: Callable[[Any], Any], result: Any, call: str) -> Any:
+    """Normalize a result, reporting a bad result rather than the normalizer's crash."""
+    __tracebackhide__ = True
+    try:
+        return normalize(result)
+    except Exception as exc:
+        hint = " — a solution with no return statement returns None" if result is None else ""
+        raise AssertionError(
+            f"{call}\n  returned: {result!r}"
+            f"\n  which NORMALIZE could not handle: {type(exc).__name__}: {exc}{hint}"
+        ) from None
