@@ -36,6 +36,7 @@ suite picks it up with no new test code.
 |---|---------|------------|--------|------------|-------|
 | 1 | [Two Sum](problems/0001-two-sum/README.md) | easy | junior, array, hash-table | NestedLoops, NestedLoopsSkipRepeats, ComplementScan, ComplementHashMap | notebook |
 | 15 | [3Sum](problems/0015-3sum/README.md) | medium | array, two-pointers-sorting | MiddlePivotSet, TwoPointersPruned, BisectJump | notebook |
+| 18 | [4Sum](problems/0018-4sum/README.md) | medium | array, two-pointers, sorting | BisectJumpSet, BisectJumpList | notebook |
 | 167 | [Two Sum II - Input Array Is Sorted](problems/0167-two-sum-ii-input-array-is-sorted/README.md) | medium | array, two-pointers, binary-search | HashMap, TwoPointers, TwoPointersSkipImpossible, TwoPointersSkipDuplicates, BisectJump, MidpointProbe, BisectRunEnd, InlineBisectJump | notebook |
 | 653 | [Two Sum IV - Input is a BST](problems/0653-two-sum-iv-input-is-a-bst/README.md) | easy | mid-level, hash-table, two-pointers, tree, depth-first-search, breadth-first-search, binary-search-tree, binary-tree | RecursiveList, StackSet, RecursiveSetSeeded, RecursiveSet, SearchPerNode, QueueSet | notebook |
 <!-- lc:index:end -->
