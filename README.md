@@ -40,6 +40,7 @@ suite picks it up with no new test code.
 | 18 | [4Sum](problems/0018-4sum/README.md) | medium | array, two-pointers, sorting | BisectJumpSet, BisectJumpList | notebook |
 | 19 | [Remove Nth Node From End of List](problems/0019-remove-nth-node-from-end-of-list/README.md) | medium | linked-list, two-pointers | TwoPointers | notebook |
 | 21 | [Merge Two Sorted Lists](problems/0021-merge-two-sorted-lists/README.md) | easy | linked-list, recursion | Brute | notebook |
+| 24 | [Swap Nodes in Pairs](problems/0024-swap-nodes-in-pairs/README.md) | medium | linked-list, recursion | RecursiveSwap | notebook |
 | 88 | [Merge Sorted Array](problems/0088-merge-sorted-array/README.md) | easy | array, two-pointers, sorting | ConcatSort, ForwardInsert, BackwardTwoPointer | notebook |
 | 167 | [Two Sum II - Input Array Is Sorted](problems/0167-two-sum-ii-input-array-is-sorted/README.md) | medium | array, two-pointers, binary-search | HashMap, TwoPointers, TwoPointersSkipImpossible, TwoPointersSkipDuplicates, BisectJump, MidpointProbe, BisectRunEnd, InlineBisectJump | notebook |
 | 454 | [4Sum II](problems/0454-4sum-ii/README.md) | medium | principal, array, hash-table | TripleLoop, SplitPairCount, SplitAllCount, SplitGuardedCount, SplitSetCount, SplitPruned, SplitDirect, SplitCounter | notebook |
