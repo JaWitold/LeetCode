@@ -49,9 +49,23 @@ constraints into a list.
 
 Two things the paste usually loses:
 
-- **images** — keypad diagrams, tree pictures, linked-list figures. Reproduce
-  the content as a fenced block or table and say in your reply that you did,
-  since it is the one place you added text.
+- **images** — keypad diagrams, tree pictures, linked-list figures. A copied
+  page keeps the caption and drops the picture, leaving `Explanation:` with
+  nothing under it.
+
+  **Ask for the image URL** rather than inventing a replacement: on LeetCode it
+  is reachable by right-clicking the figure, and looks like
+  `https://assets.leetcode.com/uploads/2020/10/03/swap_ex1.jpg`. Embed it with
+  alt text that describes what it shows, so the README still reads with images
+  off:
+
+  ```markdown
+  ![Example 1: the list 1 -> 2 -> 3 -> 4 becomes 2 -> 1 -> 4 -> 3](https://assets.leetcode.com/uploads/2020/10/03/swap_ex1.jpg)
+  ```
+
+  Only when the user cannot supply it, reproduce the content as a fenced block
+  or table — and say in your reply that you did, since it is the one place you
+  added text rather than copied it.
 - **example figures** — "Example 1:" followed by a blank line where a picture
   was. Keep the input/output block that follows it.
 
